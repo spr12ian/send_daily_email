@@ -4,13 +4,14 @@ from email.mime.text import MIMEText
 import datetime
 import schedule
 import time
+import config
 
 # Email configuration
-SENDER_EMAIL = "your_email@gmail.com"  # Replace with your email
-SENDER_PASSWORD = "your_password"  # Replace with your password or app password
-RECEIVER_EMAIL = "recipient@example.com"  # Replace with the recipient's email
-SMTP_SERVER = "smtp.gmail.com"  # For Gmail; change if using a different provider
-SMTP_PORT = 587  # For Gmail; change if using a different provider
+SENDER_EMAIL = config.SENDER_EMAIL
+SENDER_PASSWORD = config.SENDER_PASSWORD
+RECEIVER_EMAIL = config.RECEIVER_EMAIL
+SMTP_SERVER = config.SMTP_SERVER
+SMTP_SSL_PORT = config.SMTP_SSL_PORT
 
 def generate_report():
     """Generates the daily report content."""
@@ -42,8 +43,7 @@ def send_email(report_content):
     message.attach(MIMEText(report_content, "plain")) # or "html" if using HTML content
 
     try:
-        with smtplib.SMTP(SMTP_SERVER, SMTP_PORT) as server:
-            server.starttls()  # Secure the connection
+        with smtplib.SMTP_SSL(SMTP_SERVER, SMTP_SSL_PORT) as server:
             server.login(SENDER_EMAIL, SENDER_PASSWORD)
             server.sendmail(SENDER_EMAIL, RECEIVER_EMAIL, message.as_string())
         print("Email report sent successfully!")

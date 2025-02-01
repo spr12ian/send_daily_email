@@ -1,3 +1,6 @@
+# Python format config file which may contain private data
+config.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
